@@ -4,6 +4,8 @@ README
     This software has been written originally by an unknown customer of NDI Europe GmbH.
     It has been refactored, packed into a cmake project and uploaded to github by
     Christoph Jud (christoph.jud@unibas.ch) with the Apache 2.0 license.
+    
+    Further editing by Marco Esposito (marco.esposito@tum.de).
 
 * Prerequisites:
     Have the development release libusb installed (this should be easy to do through your
@@ -40,15 +42,12 @@ README
     the LD_LIBRARY_PATH.
 
 * Support for medSAFE and trackSTAR / driveBAY
-    in PointATC3DG.h uncomment the appropriate defination for the tracker you have
-#define BIRD_PRODUCT	0x4099 // medSAFE
-OR
-#define BIRD_PRODUCT    0x4101 // trakSTAR
-OR
-#define BIRD_PRODUCT    0x1008 // driveBAY2
-#define BIRD_VENDOR     0x21e2
 
-    You can derive these ids with e.g. lsusb.
+    the PointATC3DG class takes product and vendor IDs as arguments.
+    Known IDs are listed in the BirdVendor and BirdProduct enums in PointATC3DG.h.
+    Please refer to the test program for usage.
+
+    You can derive missing ids with e.g. lsusb.
 
 
 *libusb configuration:
