@@ -3,13 +3,13 @@
 // Linux USB driver for Ascension 3dg
 //
 
-#include "PointATC3DG.h"
+#include <PointATC3DG.h>
+
+#include <usb.h>
 
 #include <cstdio>
 #include <cstdarg>
 #include <algorithm>
-
-#include <usb.h>
 
 const int DELAY = 500;
 
