@@ -48,10 +48,13 @@ public:
     bool sensorAttached(const int& iSensorId);
 
 protected:
-    struct usb_device* find_device( int iVendorId, int iProductId );
+    struct usb_device* find_device(unsigned short iVendorId, unsigned short iProductId);
 
     int check_bird_errors( void );
     void error( int val, const char* msg, ... );
+    
+    void read(unsigned int bytes);
+    void write(unsigned int bytes);
 
 protected:
     struct usb_device *dev;
@@ -62,6 +65,7 @@ protected:
 
     char dataout[16];
     char datain[32];
+    int ret;
 
     bool isOk;
     double posk;
