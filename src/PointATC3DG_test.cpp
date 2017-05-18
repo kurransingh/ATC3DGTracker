@@ -1,11 +1,31 @@
 #include <iostream>
+#include <algorithm>
 
 #include "Utils.h"
 #include "PointATC3DG.h"
 
 
-int main( int argc, char** argv ){
-	PointATC3DG bird;
+int main( int argc, char** argv )
+{
+    BirdProduct product = DRIVEBAY2;
+    
+    if (argc > 1)
+    {
+        std::string productString(argv[1]);
+        std::transform(productString.begin(), productString.end(), productString.begin(), ::tolower);
+        
+        if (productString == "drivebay2")
+            product = DRIVEBAY2;
+        else if (productString == "medsafe")
+            product = MEDSAFE;
+        else if (productString == "trakstar")
+            product = TRAKSTAR;
+        else
+            throw std::runtime_error("Unrecognized device identifier! (must be one of [drivebay2,medsafe,trakstar])");
+        
+    }
+    
+	PointATC3DG bird(product);
 
 	if( !bird ) return -1;
 

@@ -53,12 +53,14 @@ int ret;
         ret = usb_bulk_read( handle, BIRD_EP_IN, data, bytes, DELAY );      \
     } while( ret == 0 );                                                    \
 
-PointATC3DG::PointATC3DG() :
-    isOk( true )
+PointATC3DG::PointATC3DG(unsigned int productId, unsigned int vendorId)
+: vendorId(vendorId)
+, productId(productId)
+, isOk(true)
 {
     usb_init();
 
-    dev = find_device( BIRD_VENDOR, BIRD_PRODUCT );
+    dev = find_device( vendorId, productId );
     if( !dev ) {
         error( 1, "finding device on USB bus. Turn it on?" );
         return;

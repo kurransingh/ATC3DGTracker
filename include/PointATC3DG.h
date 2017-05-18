@@ -1,28 +1,20 @@
 #ifndef _PointATC3DG_
 #define _PointATC3DG_
 
-// Device Vendor ID (idVendor)
-#ifndef BIRD_VENDOR
-//#define BIRD_VENDOR     1204
-#define BIRD_VENDOR     0x21e2
-#endif
+// Device USB Vendor ID (idVendor)
+enum BirdVendor {
+    ASCENSION = 0x21e2
+};
 
-// Device Product ID (idProduct)
-#ifndef BIRD_PRODUCT
-//#define BIRD_PRODUCT	4099 // medSAFE
-//#define BIRD_PRODUCT  4101 // trakSTAR
-#define BIRD_PRODUCT    0x1008 // driveBAY2
-#endif
+// Device USB Product ID (idProduct)
+enum BirdProduct {
+    MEDSAFE = 0x1003,
+    TRAKSTAR = 0x1005,
+    DRIVEBAY2 = 0x1008,
+};
 
-// Device Endpoint-Out
-#ifndef BIRD_EP_OUT
-#define BIRD_EP_OUT     0x02
-#endif
-
-// Device Endpoint-In
-#ifndef BIRD_EP_IN
-#define BIRD_EP_IN      0x86
-#endif
+const int BIRD_EP_OUT = 0x02;
+const int BIRD_EP_IN = 0x86;
 
 // forward declarations
 struct usb_device;
@@ -30,7 +22,7 @@ struct usb_dev_handle;
 
 class PointATC3DG {
 public:
-    PointATC3DG();
+    PointATC3DG(unsigned int productId, unsigned int vendorId = ASCENSION);
     ~PointATC3DG();
 
     // evaluate whether initialized properly
@@ -64,6 +56,9 @@ protected:
 protected:
     struct usb_device *dev;
     struct usb_dev_handle *handle;
+    
+    unsigned int vendorId;
+    unsigned int productId;
 
     char dataout[16];
     char datain[32];
