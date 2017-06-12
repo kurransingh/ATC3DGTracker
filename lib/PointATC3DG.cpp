@@ -39,8 +39,9 @@ const int DELAY = 500;
 // Conversions
 const double WTF = 1.0/32768; // word to float
 const double ANGK = 180 * WTF;
-const double POSK36 = 36 * WTF;
-const double POSK72 = 72 * WTF;
+const double INCH_TO_METER  = 25.4/1000.0;
+const double POSK36 = 36 * WTF * INCH_TO_METER;
+const double POSK72 = 72 * WTF * INCH_TO_METER;
 
 void PointATC3DG::write(unsigned int bytes) {
     ret = usb_bulk_write( handle, BIRD_EP_OUT, dataout, bytes, DELAY);
