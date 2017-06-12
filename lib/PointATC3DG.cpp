@@ -21,6 +21,7 @@ const int DELAY = 500;
 #define CHANGE_VALUE                0x50
 #define POS_ANG                     0x59
 #define POS_MAT                     0x5A
+#define POS_QUAT                    0x5D
 #define RESET                       0x62
 #define METAL                       0x73
 
@@ -152,12 +153,21 @@ int PointATC3DG::setSuddenOutputChangeLock( int iSensorId )
     return check_bird_errors();
 }
 
+int PointATC3DG::setSensorQuaternion( int iSensorId )
+{
+    dataout[0] = 0xf1 + iSensorId;
+    dataout[1] = POS_QUAT;
+    write(2);
+
+    return check_bird_errors();
+}
+
 int PointATC3DG::setSensorRotMat( int iSensorId )
 {
     dataout[0] = 0xf1 + iSensorId;
     dataout[1] = POS_MAT;
     write(2);
-
+    
     return check_bird_errors();
 }
 
@@ -270,6 +280,42 @@ int PointATC3DG::getCoordinatesMatrix( int iSensorId,
         return check_bird_errors();
     }
     error( ret, "reading point data -> %s", usb_strerror());
+    return ret;
+}
+
+int PointATC3DG::getCoordinatesQuaternion( int iSensorId,
+                                           double& dX, double& dY, double& dZ,
+                                           double* quat )
+{
+    short q[4];
+    short nX, nY, nZ;
+    
+    dataout[0] = 0xf1 + iSensorId;
+    dataout[1] = POINT;
+    write(2);
+    
+    read(14);
+    
+    if( ret == 14 ) {
+        nX = ( (datain[1] << 7) | (datain[0] & 0x7f) ) << 2;
+        nY = ( (datain[3] << 7) | (datain[2] & 0x7f) ) << 2;
+        nZ = ( (datain[5] << 7) | (datain[4] & 0x7f) ) << 2;
+        
+        short *dataptr = q;
+        for( int i = 7 ; i < 14 ; i += 2, ++dataptr ) {
+            *dataptr = ( (datain[i] << 7) | (datain[i-1] & 0x7f) ) << 2;
+        }
+        
+        dX = nX * posk;
+        dY = nY * posk;
+        dZ = nZ * posk;
+        
+        for( int i = 0 ; i < 4 ; ++i )
+            quat[i] = q[i] * WTF;
+        
+        return check_bird_errors();
+    }
+    error( ret, "reading point data -> %s", usb_strerror() );
     return ret;
 }
 

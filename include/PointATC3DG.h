@@ -32,17 +32,21 @@ public:
     int setSuddenOutputChangeLock( int iSensorId );
 
     int setSensorRotMat( int iSensorId );
+    int setSensorQuaternion( int iSensorId );
     int setSensorTopHemisphere( int iSensorId );
     int setSensorHemisphere( int iSensorId, char cSphereId );
     int setMeasurementRate( double dRate );
 
     int getNumberOfSensors( void );
     int getCoordinatesAngles( int iSensorId,
-        double& dX, double& dY, double& dZ,
-        double& dAzimuth, double& dElevation, double& dRoll );
+                              double& dX, double& dY, double& dZ,
+                              double& dAzimuth, double& dElevation, double& dRoll );
     int getCoordinatesMatrix( int iSensorId,
-        double& dX, double& dY, double& dZ,
-        double* pMat );
+                              double& dX, double& dY, double& dZ,
+                              double* pMat );
+    int getCoordinatesQuaternion( int iSensorId,
+                                  double& dX, double& dY, double& dZ,
+                                  double* quat );
 
     bool transmitterAttached();
     bool sensorAttached(const int& iSensorId);
