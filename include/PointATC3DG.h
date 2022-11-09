@@ -3,7 +3,7 @@
 
 // Device USB Vendor ID (idVendor)
 enum BirdVendor {
-    ASCENSION = 0x21e2
+    ASCENSION = 0x04b4
 };
 
 // Device USB Product ID (idProduct)
