@@ -7,7 +7,7 @@
 
 int main( int argc, char** argv )
 {
-    BirdProduct product = DRIVEBAY2;
+    BirdProduct product = TRAKSTAR;
     
     if (argc > 1)
     {
